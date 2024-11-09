@@ -1,0 +1,13 @@
+@import '../core/mixin';
+.header{
+    position: fixed;
+    @include flex-space-between;
+    width: 100%;
+    padding: 20px 50px;
+    background-color: #0b0b11;
+    transition: 0.3s;
+}
+.sticky{
+    padding-block: 10px;
+    box-shadow: inset 0 -1.5px 3px rgba(255,255,255,0.3);
+}
