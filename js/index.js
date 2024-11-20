@@ -5,6 +5,7 @@ let topNews = document.querySelector('.topNews')
 let sportsNews = document.querySelector('#sportsNews .newsBox')
 let businessNews = document.querySelector('#businessNews .newsBox')
 let techNews = document.querySelector('#techNews .newsBox')
+let entertainmentNews = document.querySelector('#entertainmentNews .newsBox')
 
 let header = document.querySelector('.header')
 let toggleMenu = document.querySelector('.bar')
@@ -31,7 +32,7 @@ window.addEventListener('scroll',()=>{
 
 // fetching news data with API
 
-const apiKey = "pub_58721416a1710dbca9a2cc3f7425bce3949cc";
+const apiKey = "pub_59865698bcc19305d360a89838d94d186d442";
 
 const fetchData = async (category, size) => {
     try {
@@ -207,3 +208,36 @@ fetchData('top', 10)
         console.error("Error in top news fetch process:", error);
           techNews.innerHTML = '<p>Failed to load tech news</p>';
     });
+
+    const add_entertainmentNews = (data) => {
+      const validArticles = data.filter(element =>
+          element.image_url && element.link && element.title  
+      );
+
+  if(validArticles.length === 0){
+      sportsNews.innerHTML = '<p>No news articles available</p>';
+    return;
+  }
+  const html = validArticles.map((element) => {
+      const title = element.title.length > 100 ? element.title.slice(0,100) + "..." : element.title;
+      return `<div class="newsCard">
+        <div class="img">
+          <img src="${element.image_url}" alt="News Image">
+        </div>
+        <div class="text">
+          <div class="title">
+            <a href="${element.link}" target="_blank"><p>${title}</p></a>
+          </div>
+        </div>
+      </div>`
+  }).join('');
+  entertainmentNews.innerHTML = html;
+  }
+    fetchData('entertainment',5)
+      .then(add_entertainmentNews)
+      .catch(error => {
+      console.error("Error in entertainment news fetch process:", error);
+      entertainmentNews.innerHTML = '<p>Failed to load entertainment news</p>';
+    });
+
+  
